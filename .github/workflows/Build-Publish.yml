@@ -15,9 +15,19 @@ jobs:
       - name: log in a docker hub
         run: docker login -u "${{secrets.DOCKER_USER}}" -p "${{secrets.DOCKER_PASSWORD}}"
 
-      - name: Construir imagen
+      - name: Construir imagen con commit
         run: docker build -t josaplus/docker-fundamentals:${{github.sha}} .
+      
+      # - name: Renombrar la imagen con commit
+      #   run: docker push josaplus/docker-fundamentals:${{github.sha}} josaplus/docker-fundamentals:latest
+      
+      # - name: Construir imagen con latest
+      #   run: docker build -t josaplus/docker-fundamentals:latest .
+
+      - name: Etiquetar la imagen como latest
+        run: docker tag josaplus/docker-fundamentals:${{github.sha}} josaplus/docker-fundamentals:latest
 
       - name: publicar la imagen
-        run: docker push josaplus/docker-fundamentals:v2
-        
+        run: | 
+          docker push josaplus/docker-fundamentals:${{github.sha}}
+          docker push josaplus/docker-fundamentals:latest
