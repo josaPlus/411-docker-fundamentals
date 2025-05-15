@@ -1,0 +1,35 @@
+# levantar todos los comandos de docker
+
+services:
+
+  api:
+    container_name: MyAwesomeAPI
+    build: 
+      context: .
+    ports:
+      - 3005:3000
+
+  db:
+    image: mysql:8
+    container_name: MySQLDockerCompose
+    ports:
+      - 3415:3306
+      - 3416:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345
+    volumes:
+      - db_mysql:/var/lib/mysql
+
+  box3:
+    image: alpine
+    command: sleep 3600
+    deploy:
+      replicas: 8
+  
+  box4:
+    image: alpine
+    container_name: box4
+    command: sleep 3600
+
+volumes:
+  db_mysql:
