@@ -1,0 +1,23 @@
+name: Docker Build & Publish
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone My Repository
+        uses: actions/checkout@v2
+      
+      - name: log in a docker hub
+        run: docker login -u "${{secrets.DOCKER_USER}}" -P "${{secrets.DOCKER_PASSWORD}}"
+
+      - name: Construir imagen
+        run: docker build -t josaplus/docker-fundamentals:v2 .
+
+      - name: publicar la imagen
+        run: docker push josaplus/docker-fundamentals:v2
+        
